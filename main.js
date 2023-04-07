@@ -6,7 +6,7 @@ game.GenerateDeathCaseNegative()
 game.GenerateDeathCasePositive()
 
 let snake = game.snake
-snake.Create(477)
+snake.Create(485)
 
 let idInterval = 0
 

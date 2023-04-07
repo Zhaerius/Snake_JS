@@ -5,7 +5,7 @@ export class Snake {
         this.nextCase = 0
         this.direction = 'ArrowRight'
         this.state = true
-    }
+    } //test
 
     Create(id) {
         let snake = document.createElement("div")
