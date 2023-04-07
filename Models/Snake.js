@@ -58,17 +58,10 @@ export class Snake {
     }
 
 
-    Move(status, idInterval) {
-        if(status) {
-            this.Remove()
-            this.CreateElement()
-            this.headCurrentCase = this.headNextCase
-        }
-        else {
-            this.state = false
-            alert('Perdu !')
-            clearInterval(idInterval)
-        }
+    Move() {
+        this.Remove()
+        this.CreateElement()
+        this.headCurrentCase = this.headNextCase
     }
 
 

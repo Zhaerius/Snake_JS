@@ -5,16 +5,15 @@ export class Candy {
         this.currentPosition = 0
     }
 
-    Create(numberCase) {
+    Create(caseCreate) {
         //Creation du HTML
-        let rdn = Helpers.generateRandomNumber(numberCase)
         let candy = document.createElement("div")
-        let parent = document.querySelector(`[case-id="${rdn}"]`)
+        let parent = document.querySelector(`[case-id="${caseCreate}"]`)
         candy.classList.add('candy')
         parent.appendChild(candy)
 
         //Mise à jour de la position
-        this.currentPosition = rdn
+        this.currentPosition = caseCreate
     }
 
     Remove() {

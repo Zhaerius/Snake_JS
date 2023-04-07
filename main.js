@@ -12,10 +12,26 @@ let idInterval = 0
 document.addEventListener('keyup', (event) => {
     if(!game.state) {
         game.state = true
+
         idInterval = setInterval(() => {
             game.Play(idInterval)
         }, 70)
     }
-    game.snake.direction = event.key
-})
+
+
+    //Pas de retour arrière possible  
+    if(game.snake.direction == "ArrowRight" && event.key != "ArrowRight" && event.key != "ArrowLeft")
+        game.snake.direction = event.key
+
+    if(game.snake.direction == "ArrowLeft" && event.key != "ArrowLeft" && event.key != "ArrowRight")
+        game.snake.direction = event.key
+
+    if(game.snake.direction == "ArrowUp" && event.key != "ArrowUp" && event.key != "ArrowDown")
+        game.snake.direction = event.key
+
+    if(game.snake.direction == "ArrowDown" && event.key != "ArrowDown" && event.key != "ArrowUp")
+        game.snake.direction = event.key
+
+    
+}) 
 

@@ -1,5 +1,6 @@
 import { Snake } from "./Snake.js"
 import { Candy } from "./Candy.js"
+import { Helpers } from "../Helpers/Helpers.js"
 
 export class Game {
     constructor(sizeArea, sizeCase, snakeInitial) {
@@ -23,7 +24,7 @@ export class Game {
             div.setAttribute('case-id', index)
             this.divArea.appendChild(div)
         }
-        this.candy.Create(this.numberCase)
+        this.candy.Create(Helpers.generateRandomNumber(this.numberCase))
         this.DisplayPoint()
     }
 
@@ -46,8 +47,14 @@ export class Game {
         let canMove = this.snake.CheckMove(this.sizeRow, this.deathCaseNegative, this.deathCasePositive)
         
         if(canMove && this.snake.headNextCase == this.candy.currentPosition) {
+            let rdn = Helpers.generateRandomNumber(this.numberCase)
+
+            while(this.snake.position.includes(rdn)) {
+                rdn = Helpers.generateRandomNumber(this.numberCase)
+            }
+
             this.candy.Remove()
-            this.candy.Create(this.numberCase)
+            this.candy.Create(rdn)
             this.point++
 
             this.snake.AddPartBody()
@@ -55,7 +62,22 @@ export class Game {
             this.DisplayPoint()
         }
 
-        this.snake.Move(canMove, idInterval)
+        let snakeBody = [...this.snake.position]
+
+        if(canMove && snakeBody.slice(1).includes(this.snake.headNextCase))
+            this.Defeat(idInterval)
+
+        if(canMove)
+            this.snake.Move(canMove, idInterval)
+        else
+            this.Defeat(idInterval)
+
+    }
+
+    Defeat(idInterval) {
+        this.snake.state = false
+        alert('Perdu !')
+        clearInterval(idInterval)
     }
 
     DisplayPoint() {
