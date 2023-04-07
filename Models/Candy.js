@@ -1,5 +1,3 @@
-import { Helpers } from "../Helpers/Helpers.js"
-
 export class Candy {
     constructor() {
         this.currentPosition = 0

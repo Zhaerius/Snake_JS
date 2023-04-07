@@ -56,9 +56,7 @@ export class Game {
             this.candy.Remove()
             this.candy.Create(rdn)
             this.point++
-
             this.snake.AddPartBody()
-
             this.DisplayPoint()
         }
 
