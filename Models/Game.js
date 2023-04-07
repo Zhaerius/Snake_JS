@@ -82,7 +82,4 @@ export class Game {
         let point = document.querySelector(".point")
         point.innerText = this.point
     }
-
-
-
 }

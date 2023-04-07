@@ -57,7 +57,6 @@ export class Snake {
         }
     }
 
-
     Move() {
         this.Remove()
         this.CreateElement()

@@ -31,7 +31,5 @@ document.addEventListener('keyup', (event) => {
 
     if(game.snake.direction == "ArrowDown" && event.key != "ArrowDown" && event.key != "ArrowUp")
         game.snake.direction = event.key
-
-    
 }) 
 
