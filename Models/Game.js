@@ -1,7 +1,7 @@
 import { Snake } from "./Snake.js"
 
 export class Game {
-    constructor(sizeArea, sizeCase) {
+    constructor(sizeArea, sizeCase, snakeInitial) {
         this.sizeArea = sizeArea
         this.sizeCase = sizeCase
         this.sizeRow = (sizeArea / sizeCase)
@@ -9,7 +9,7 @@ export class Game {
         this.divArea = document.querySelector('#game')
         this.deathCaseNegative = []
         this.deathCasePositive = []
-        this.snake = new Snake()
+        this.snake = new Snake(snakeInitial)
         this.state = false
     }
 
