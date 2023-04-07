@@ -1,4 +1,5 @@
 import { Snake } from "./Snake.js"
+import { Candy } from "./Candy.js"
 
 export class Game {
     constructor(sizeArea, sizeCase, snakeInitial) {
@@ -11,6 +12,8 @@ export class Game {
         this.deathCasePositive = []
         this.snake = new Snake(snakeInitial)
         this.state = false
+        this.candy = new Candy()
+        this.point = 0
     }
 
     CreateSpaceGame() {    
@@ -20,6 +23,8 @@ export class Game {
             div.setAttribute('case-id', index)
             this.divArea.appendChild(div)
         }
+        this.candy.Create(this.numberCase)
+        this.DisplayPoint()
     }
 
     GenerateDeathCaseNegative() {    
@@ -28,10 +33,36 @@ export class Game {
         } 
         return this.deathCaseNegative
     }
+
     GenerateDeathCasePositive() {    
         for (let index = 0; index < this.numberCase; index += this.sizeRow) {
             this.deathCasePositive.push(index + 1)
         } 
         return this.deathCasePositive 
     }
+
+    Play(idInterval) {
+        this.snake.UpdatePosition(this.sizeRow)
+        let canMove = this.snake.CheckMove(this.sizeRow, this.deathCaseNegative, this.deathCasePositive)
+        
+        if(canMove && this.snake.headNextCase == this.candy.currentPosition) {
+            this.candy.Remove()
+            this.candy.Create(this.numberCase)
+            this.point++
+
+            this.snake.AddPartBody()
+
+            this.DisplayPoint()
+        }
+
+        this.snake.Move(canMove, idInterval)
+    }
+
+    DisplayPoint() {
+        let point = document.querySelector(".point")
+        point.innerText = this.point
+    }
+
+
+
 }

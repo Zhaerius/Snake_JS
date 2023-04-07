@@ -5,20 +5,17 @@ game.CreateSpaceGame()
 game.GenerateDeathCaseNegative()
 game.GenerateDeathCasePositive()
 
-let snake = game.snake
-snake.CreateElement()
+game.snake.CreateElement()
 
 let idInterval = 0
 
 document.addEventListener('keyup', (event) => {
     if(!game.state) {
         game.state = true
-        // snake.Move(game.sizeRow, game.deathCaseNegative, game.deathCasePositive, idInterval)
         idInterval = setInterval(() => {
-            snake.Move(game.sizeRow, game.deathCaseNegative, game.deathCasePositive, idInterval)
+            game.Play(idInterval)
         }, 70)
     }
-
-    snake.direction = event.key
+    game.snake.direction = event.key
 })
 

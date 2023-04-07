@@ -24,8 +24,12 @@ export class Snake {
         });
     }
 
+    AddPartBody() {
+        let lastElement = parseInt(this.position[this.position.length - 1])
+        this.position.push(lastElement)
+    }
 
-    Move(sizeRow, deathCaseNegative, deathCasePositive, idInterval) {
+    UpdatePosition(sizeRow) {
         //Gestion du mouvement
         switch (this.direction) {
             case "ArrowUp":
@@ -51,12 +55,11 @@ export class Snake {
             else
                 this.position[i] = this.position[i - 1]
         }
+    }
 
 
-        //Vérification et mouvement
-        let canMove = this.CheckMove(sizeRow, deathCaseNegative, deathCasePositive)
-
-        if(canMove) {
+    Move(status, idInterval) {
+        if(status) {
             this.Remove()
             this.CreateElement()
             this.headCurrentCase = this.headNextCase
@@ -66,10 +69,9 @@ export class Snake {
             alert('Perdu !')
             clearInterval(idInterval)
         }
-
     }
 
-    
+
     CheckMove(sizeRow, deathCaseNegative, deathCasePositive) {
         if (this.headNextCase > sizeRow * sizeRow || this.headNextCase < 1)
             return false
