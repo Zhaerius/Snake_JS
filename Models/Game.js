@@ -15,6 +15,7 @@ export class Game {
         this.state = false
         this.candy = new Candy()
         this.point = 0
+        this.authorizeKey = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"]
     }
 
     CreateSpaceGame() {    
@@ -63,7 +64,7 @@ export class Game {
         let snakeBody = [...this.snake.position]
 
         if(canMove && snakeBody.slice(1).includes(this.snake.headNextCase))
-            this.Defeat(idInterval)
+        alert('bug')
 
         if(canMove)
             this.snake.Move(canMove, idInterval)
