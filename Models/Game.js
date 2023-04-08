@@ -9,13 +9,14 @@ export class Game {
         this.sizeRow = (sizeArea / sizeCase)
         this.numberCase = this.sizeRow * this.sizeRow
         this.divArea = document.querySelector('#game')
-        this.deathCaseNegative = []
-        this.deathCasePositive = []
+        this.upCases = []
+        this.downCases = []
         this.snake = new Snake(snakeInitial)
         this.state = false
         this.candy = new Candy()
         this.point = 0
         this.authorizeKey = ["ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"]
+        this.defineDirection = false
     }
 
     CreateSpaceGame() {    
@@ -26,28 +27,43 @@ export class Game {
             this.divArea.appendChild(div)
         }
         this.candy.Create(Helpers.generateRandomNumber(this.numberCase))
-        this.DisplayPoint()
+        this.DisplayScore()
+        this.GenerateUpCases()
+        this.GenerateDownCases()
     }
 
-    GenerateDeathCaseNegative() {    
-        for (let index = this.sizeRow; index <= this.numberCase; index += this.sizeRow) {
-            this.deathCaseNegative.push(index)
+    GenerateUpCases() {    
+        for (let i = 1; i <= this.sizeRow; i++) {
+            this.upCases.push(i)
         } 
-        return this.deathCaseNegative
+        return this.upCases 
     }
 
-    GenerateDeathCasePositive() {    
-        for (let index = 0; index < this.numberCase; index += this.sizeRow) {
-            this.deathCasePositive.push(index + 1)
+    GenerateDownCases() {    
+        for (let i = (this.numberCase - this.sizeRow); i <= this.numberCase; i++) {
+            this.downCases.push(i)
         } 
-        return this.deathCasePositive 
+        return this.downCases 
     }
+
+    Defeat(idInterval, message) {
+        this.snake.state = false
+        alert(message)
+        clearInterval(idInterval)
+    }
+
+    DisplayScore() {
+        let point = document.querySelector(".point")
+        point.innerText = this.point
+    }
+
 
     Play(idInterval) {
-        this.snake.UpdatePosition(this.sizeRow)
-        let canMove = this.snake.CheckMove(this.sizeRow, this.deathCaseNegative, this.deathCasePositive)
+        // MAJ des coordonées
+        this.snake.UpdatePosition(this.sizeRow, (this.numberCase - this.sizeRow), this.downCases, this.upCases)
         
-        if(canMove && this.snake.headNextCase == this.candy.currentPosition) {
+        // Si la case contient un bonbon
+        if(this.snake.headNextCase == this.candy.currentPosition) {
             let rdn = Helpers.generateRandomNumber(this.numberCase)
 
             while(this.snake.position.includes(rdn)) {
@@ -58,29 +74,18 @@ export class Game {
             this.candy.Create(rdn)
             this.point++
             this.snake.AddPartBody()
-            this.DisplayPoint()
+            this.DisplayScore()
         }
 
+        // Le snake se déplace
+        this.snake.Move()
+
+        // Vérification serpent qui se mort la queue
         let snakeBody = [...this.snake.position]
+        if(snakeBody.slice(2).includes(this.snake.headNextCase))
+            this.Defeat(idInterval, "Mordu ! Mordu mordu mordu !")
 
-        if(canMove && snakeBody.slice(1).includes(this.snake.headNextCase))
-        alert('bug')
-
-        if(canMove)
-            this.snake.Move(canMove, idInterval)
-        else
-            this.Defeat(idInterval)
-
-    }
-
-    Defeat(idInterval) {
-        this.snake.state = false
-        alert('Perdu !')
-        clearInterval(idInterval)
-    }
-
-    DisplayPoint() {
-        let point = document.querySelector(".point")
-        point.innerText = this.point
+        // Pour authoriser la définition d'une nouvelle direction
+        this.defineDirection = false
     }
 }

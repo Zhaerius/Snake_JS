@@ -9,7 +9,7 @@ export class Snake {
     }
 
     CreateElement() {
-        this.position.forEach(element => {
+        this.position.forEach((element, index) => {
             let snake = document.createElement("div")
             let parent = document.querySelector(`[case-id="${element}"]`)
             snake.classList.add('snake')
@@ -29,14 +29,24 @@ export class Snake {
         this.position.push(lastElement)
     }
 
-    UpdatePosition(sizeRow) {
+    //TODO : Fix update right and left
+    UpdatePosition(sizeRow, delta, downCases, upCases) {
         //Gestion du mouvement
+        console.log(delta)
         switch (this.direction) {
             case "ArrowUp":
                 this.headNextCase = parseInt(this.headCurrentCase) - sizeRow
+
+                if(upCases.includes(this.headCurrentCase))
+                    this.headNextCase = parseInt(this.headCurrentCase) + delta
+
                 break;
             case "ArrowDown":
                 this.headNextCase = parseInt(this.headCurrentCase) + sizeRow
+
+                if(downCases.includes(this.headCurrentCase))
+                    this.headNextCase = parseInt(this.headCurrentCase) - delta
+
                 break;
             case "ArrowLeft":
                 this.headNextCase = parseInt(this.headCurrentCase) - 1
@@ -62,20 +72,5 @@ export class Snake {
         this.CreateElement()
         this.headCurrentCase = this.headNextCase
     }
-
-
-    CheckMove(sizeRow, deathCaseNegative, deathCasePositive) {
-        if (this.headNextCase > sizeRow * sizeRow || this.headNextCase < 1)
-            return false
-
-        if (deathCaseNegative.includes(parseInt(this.headCurrentCase)) && this.headNextCase == (this.headCurrentCase + 1))
-            return false
-
-        if (deathCasePositive.includes(parseInt(this.headCurrentCase)) && this.headNextCase == (this.headCurrentCase - 1))
-            return false
-
-        return true
-    }
-
 
 }
