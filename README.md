@@ -1,2 +1,3 @@
 # Snake_JS
-Projet d'apprentissage de Javascript
+Projet d'apprentissage.
+Réalisation d'un Snake en Javascript vanilla.
