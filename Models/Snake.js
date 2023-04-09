@@ -13,6 +13,10 @@ export class Snake {
             let snake = document.createElement("div")
             let parent = document.querySelector(`[case-id="${element}"]`)
             snake.classList.add('snake')
+
+            if(index == 0)
+                snake.classList.add('head')
+
             parent.appendChild(snake)
         });
     }
@@ -29,10 +33,9 @@ export class Snake {
         this.position.push(lastElement)
     }
 
-    //TODO : Fix update right and left
-    UpdatePosition(sizeRow, delta, downCases, upCases) {
+    //TODO : lisibilité pas ouf
+    UpdatePosition(sizeRow, delta, downCases, upCases, leftCases, rightCases) {
         //Gestion du mouvement
-        console.log(delta)
         switch (this.direction) {
             case "ArrowUp":
                 this.headNextCase = parseInt(this.headCurrentCase) - sizeRow
@@ -50,9 +53,17 @@ export class Snake {
                 break;
             case "ArrowLeft":
                 this.headNextCase = parseInt(this.headCurrentCase) - 1
+
+                if(leftCases.includes(this.headCurrentCase))
+                    this.headNextCase = parseInt(this.headCurrentCase) + (sizeRow - 1)
+
                 break;
             case "ArrowRight":
                 this.headNextCase = parseInt(this.headCurrentCase) + 1
+
+                if(rightCases.includes(this.headCurrentCase))
+                    this.headNextCase = parseInt(this.headCurrentCase) - (sizeRow - 1)
+
                 break;
             default:
                 break;

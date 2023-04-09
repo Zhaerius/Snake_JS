@@ -11,6 +11,8 @@ export class Game {
         this.divArea = document.querySelector('#game')
         this.upCases = []
         this.downCases = []
+        this.leftCases = []
+        this.rightCases = []
         this.snake = new Snake(snakeInitial)
         this.state = false
         this.candy = new Candy()
@@ -26,24 +28,38 @@ export class Game {
             div.setAttribute('case-id', index)
             this.divArea.appendChild(div)
         }
+
         this.candy.Create(Helpers.generateRandomNumber(this.numberCase))
         this.DisplayScore()
+        this.GenerateSensitiveCases()
+        this.snake.CreateElement()
+    }
+
+    GenerateSensitiveCases() {
         this.GenerateUpCases()
         this.GenerateDownCases()
+        this.GenerateLeftCases()
+        this.GenerateRightCases()
     }
 
     GenerateUpCases() {    
-        for (let i = 1; i <= this.sizeRow; i++) {
+        for (let i = 1; i <= this.sizeRow; i++)
             this.upCases.push(i)
-        } 
-        return this.upCases 
     }
 
     GenerateDownCases() {    
-        for (let i = (this.numberCase - this.sizeRow); i <= this.numberCase; i++) {
+        for (let i = (this.numberCase - (this.sizeRow - 1)); i <= this.numberCase; i++)
             this.downCases.push(i)
-        } 
-        return this.downCases 
+    }
+
+    GenerateLeftCases() {   
+        for (let index = 0; index < this.numberCase; index += this.sizeRow)
+            this.leftCases.push(index + 1)
+    }
+
+    GenerateRightCases() {    
+        for (let index = this.sizeRow; index <= this.numberCase; index += this.sizeRow)
+            this.rightCases.push(index)
     }
 
     Defeat(idInterval, message) {
@@ -60,7 +76,7 @@ export class Game {
 
     Play(idInterval) {
         // MAJ des coordonées
-        this.snake.UpdatePosition(this.sizeRow, (this.numberCase - this.sizeRow), this.downCases, this.upCases)
+        this.snake.UpdatePosition(this.sizeRow, (this.numberCase - this.sizeRow), this.downCases, this.upCases, this.leftCases, this.rightCases)
         
         // Si la case contient un bonbon
         if(this.snake.headNextCase == this.candy.currentPosition) {
@@ -83,7 +99,7 @@ export class Game {
         // Vérification serpent qui se mort la queue
         let snakeBody = [...this.snake.position]
         if(snakeBody.slice(2).includes(this.snake.headNextCase))
-            this.Defeat(idInterval, "Mordu ! Mordu mordu mordu !")
+            this.Defeat(idInterval, "Moooorrrrdu ! Mordu Mordu Mordu !!")
 
         // Pour authoriser la définition d'une nouvelle direction
         this.defineDirection = false
